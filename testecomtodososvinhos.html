@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍷 Catálogo Vineria Bia Alves</title>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* --- ESTILO (CSS) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; color: #333; padding-bottom: 50px; }
+        
+        /* Cabeçalho */
+        header { background-color: #5d021f; color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .search-box { position: relative; max-width: 100%; margin: 15px auto 0; }
+        .search-box input { width: 100%; padding: 12px 15px 12px 40px; border-radius: 25px; border: none; font-size: 16px; outline: none; }
+        .search-box .material-icons { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #666; }
+
+        /* Grade Responsiva */
+        .catalog-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            gap: 15px; 
+            padding: 15px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+
+        /* Cartão */
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 180px; object-fit: cover; transition: transform 0.3s; }
+        .card img:hover { transform: scale(1.03); }
+
+        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card h3 { font-size: 1rem; margin-bottom: 5px; color: #5d021f; }
+        .card p { font-size: 0.85rem; color: #666; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .price { font-size: 1.2rem; color: #27ae60; font-weight: bold; margin-bottom: 10px; }
+        
+        /* Botão */
+        .btn-buy { background-color: #25d366; color: white; text-decoration: none; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; display: block; font-size: 0.9rem; transition: background-color 0.2s; }
+        .btn-buy:active { background-color: #128c7e; }
+
+        /* Rodapé */
+        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #888; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h3>🍇 Catálogo de Vinhos Vineria Bia Alves</h3>
+        <div class="search-box">
+            <span class="material-icons">search</span>
+            <input type="text" id="search-bar" placeholder="Buscar vinho por nome...">
+        </div>
+    </header>
+
+    <div id="catalog" class="catalog-grid">
+        </div>
+
+    <footer>
+        <p>Toque em "Pedir" para abrir o WhatsApp</p>
+    </footer>
+
+    <script>
+        // --- CONFIGURAÇÃO ---
+        const MEU_WHATSAPP = "5527999672027"; // <--- SEU NÚMERO AQUI
+
+        // --- PRODUTOS (Imagens foram removidas e substituídas por um PLACEHOLDER) ---
+        // VOCÊ DEVE INSERIR SUAS IMAGENS AQUI!
+        const products = [
+            // Produtos da primeira lista
+            { id: 976, name: "ALI JO RESERVA DOP", price: 189.00, description: "Tinto de Reserva Especial.", image: "IMAGEM_AQUI" },
+            { id: 1193, name: "ALTOS DA DIVISA BORDO SUAVE 750ml", price: 40.00, description: "Bordô Suave de 750ml.", image: "IMAGEM_AQUI" },
+            { id: 888, name: "AMADEO PREMIUM CAB SAUVIGNON TN 750ml", price: 85.00, description: "Cabernet Sauvignon Premium.", image: "IMAGEM_AQUI" },
+            { id: 968, name: "ANGELICA ZAPATA CABERNET / MALBEC", price: 319.00, description: "Blend Cabernet Sauvignon e Malbec.", image: "IMAGEM_AQUI" },
+            { id: 1317, name: "ANKA TTO 750ML", price: 164.00, description: "Vinho Tinto ANKA, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1231, name: "ANUBIS RED BLEND TT750", price: 89.00, description: "Blend Tinto ANUBIS, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1255, name: "ATLANTICO ALENTEJO TINTO TT750", price: 75.00, description: "Tinto de Alentejo, Portugal.", image: "IMAGEM_AQUI" },
+            { id: 1327, name: "BALDUZZI RESERVA CABERNET SAUVIGNON 750ML", price: 95.00, description: "Cabernet Sauvignon Reserva Chileno.", image: "IMAGEM_AQUI" },
+            { id: 1328, name: "BALDUZZI RESERVA CARMENERE 750ML", price: 95.00, description: "Carmenère Reserva Chileno.", image: "IMAGEM_AQUI" },
+            { id: 1224, name: "BARRICADO TT750", price: 69.00, description: "Vinho Tinto BARRICADO, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1260, name: "BICHOT ORIGINES PINOT NOIR TT750", price: 279.00, description: "Pinot Noir Francês da linha Origines.", image: "IMAGEM_AQUI" },
+            { id: 1191, name: "BONDE ELETRICO BRANCO DOC VERDE 750ml", price: 70.00, description: "Vinho Verde Branco DOC.", image: "IMAGEM_AQUI" },
+            { id: 1163, name: "BONS VENTOS BRANCO BC375", price: 39.00, description: "Vinho Branco Bons Ventos, 375ml.", image: "IMAGEM_AQUI" },
+            { id: 1302, name: "BONS VENTOS BRANCO BC750", price: 72.00, description: "Vinho Branco Bons Ventos, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1227, name: "BONS VENTOS DOURO TT750", price: 124.00, description: "Tinto do Douro, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1304, name: "BONS VENTOS FRESH BRANCO BC750", price: 75.00, description: "Vinho Branco Fresh, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1309, name: "BONS VENTOS FRESH ROSE RS750", price: 75.00, description: "Vinho Rosé Fresh, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1229, name: "BONS VENTOS SUPERIOR TT750", price: 108.00, description: "Vinho Tinto Superior, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1188, name: "BONS VENTOS TINTO TT750", price: 81.00, description: "Vinho Tinto Bons Ventos, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1228, name: "BONS VENTOS VINHO VERDE BC750", price: 68.04, description: "Vinho Verde Branco, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1203, name: "BORGO FIORE PINOT GRIGIO DOC 750ml", price: 81.00, description: "Pinot Grigio Italiano DOC.", image: "IMAGEM_AQUI" },
+            { id: 909, name: "BRUNELLO DI MONTALCINO (CAPRILI) 2018", price: 690.90, description: "Brunello de Montalcino Safra 2018.", image: "IMAGEM_AQUI" },
+            { id: 1230, name: "C'EST LA VIE TINTO TT750", price: 110.00, description: "Vinho Tinto C'EST LA VIE, 750ml.", image: "IMAGEM_AQUI" },
+            { id: 1176, name: "CABECA DE TOIRO RESERVA TINTO TT750", price: 89.00, description: "Tinto Reserva CABECA DE TOIRO.", image: "IMAGEM_AQUI" },
+            { id: 931, name: "CABERNET FRANC DE SANGRE (LUIGI BOSCA) 2021", price: 209.90, description: "Cabernet Franc da linha De Sangre.", image: "IMAGEM_AQUI" },
+            
+            // Novos Produtos (Segunda Lista)
+            { id: 1074, name: "CALAMARES VINHO VERDE BRANCO BC750", price: 70.00, description: "Vinho Verde Branco.", image: "IMAGEM_AQUI" },
+            { id: 1161, name: "CALAMARES VINHO VERDE ROSE RS750", price: 72.00, description: "Vinho Verde Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1069, name: "CALVET CELEBRATION BRUT BC750", price: 149.00, description: "Espumante Brut.", image: "IMAGEM_AQUI" },
+            { id: 1068, name: "CALVET CELEBRATION BRUT ROSE RS750", price: 149.00, description: "Espumante Brut Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1062, name: "CALVET COTES DE PROVENCE RS750", price: 179.00, description: "Vinho Rosé Cotes de Provence.", image: "IMAGEM_AQUI" },
+            { id: 1295, name: "CALVET PRESTIGE BORDEAUX TT750", price: 120.00, description: "Vinho Tinto Bordeaux Prestige.", image: "IMAGEM_AQUI" },
+            { id: 1296, name: "CALVET PRESTIGE COTES DU RHONE TT750", price: 135.00, description: "Vinho Tinto Côtes du Rhône Prestige.", image: "IMAGEM_AQUI" },
+            { id: 1254, name: "CALVET ROSE D ANJOU RS750", price: 186.00, description: "Vinho Rosé d'Anjou.", image: "IMAGEM_AQUI" },
+            { id: 1298, name: "CALVET VARIETALS MERLOT TT750", price: 110.00, description: "Vinho Tinto Merlot Varietal.", image: "IMAGEM_AQUI" },
+            { id: 1132, name: "CASA AMERICO BRANCO WINE DAO DOP", price: 106.00, description: "Vinho Branco Dão DOP.", image: "IMAGEM_AQUI" },
+            { id: 1268, name: "CASAL MENDES 750ML", price: 69.00, description: "Vinho Branco Casal Mendes.", image: "IMAGEM_AQUI" },
+            { id: 1129, name: "CASAS DEL BOSQUE CHARDONNAY RESERVA", price: 99.00, description: "Chardonnay Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1022, name: "CAPOCCIA CILIEGIOLO MAREMMA TOSCANA DOC 750ml", price: 179.00, description: "Ciliegiolo Maremma Toscana DOC.", image: "IMAGEM_AQUI" },
+            { id: 1048, name: "CEREMONY RUBY 750ml", price: 89.50, description: "Vinho Ruby.", image: "IMAGEM_AQUI" },
+            { id: 1136, name: "CHARDONNAY RESERVA (PHEBUS-BODEGAS FABRE) 2023", price: 109.00, description: "Chardonnay Reserva Safra 2023.", image: "IMAGEM_AQUI" },
+            { id: 1034, name: "CHATEAU DES LEOTINS AOP BORDEAUX ROUGE 2018", price: 169.00, description: "Bordeaux Rouge Safra 2018.", image: "IMAGEM_AQUI" },
+            { id: 1035, name: "CHATEAU DES LEOTINS AOP ENTRE DEUX MERS BLANC 2019", price: 169.00, description: "Entre Deux Mers Blanc Safra 2019.", image: "IMAGEM_AQUI" },
+            { id: 1033, name: "CHATEAU GRAVELIER BORDEAUX SAFRA 2020", price: 189.00, description: "Bordeaux Safra 2020.", image: "IMAGEM_AQUI" },
+            { id: 972, name: "CHATEAU LAMOLIERE AOC FRONSAC 2014", price: 439.00, description: "AOC Fronsac Safra 2014.", image: "IMAGEM_AQUI" },
+            { id: 1283, name: "CHIANTI RISERVA DOCG TORREQUERCIE 750ML", price: 199.00, description: "Chianti Riserva DOCG.", image: "IMAGEM_AQUI" },
+            { id: 871, name: "CHORINHO", price: 86.00, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 841, name: "CHAMINE TN 750ml", price: 159.00, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1171, name: "CODICI PUGLIA BRANCO BC750", price: 46.80, description: "Vinho Branco da Puglia.", image: "IMAGEM_AQUI" },
+            { id: 1305, name: "CODICI PUGLIA ROSE RS750", price: 59.00, description: "Vinho Rosé da Puglia.", image: "IMAGEM_AQUI" },
+            { id: 1306, name: "CODICI PUGLIA TINTO TT750", price: 59.00, description: "Vinho Tinto da Puglia.", image: "IMAGEM_AQUI" },
+            { id: 915, name: "COMTE DE DAUZAC BORDEAUX (CHATEAU DAUZAC) 2020", price: 206.90, description: "Bordeaux Safra 2020.", image: "IMAGEM_AQUI" },
+            { id: 1127, name: "CORDERO COM PIEL DE LOBO MALBEC", price: 92.40, description: "Malbec Argentino.", image: "IMAGEM_AQUI" },
+            { id: 1310, name: "CRIOS MALBEC TT750", price: 108.00, description: "Malbec Crios.", image: "IMAGEM_AQUI" },
+            { id: 1110, name: "DEINHARD GREEN LABEL RIESLING BC750", price: 146.00, description: "Riesling Green Label.", image: "IMAGEM_AQUI" },
+            { id: 1206, name: "ESPUMANTE DEDICATO MILESIMATO EXTRA DRY 750ml", price: 109.00, description: "Espumante Extra Dry.", image: "IMAGEM_AQUI" },
+            { id: 831, name: "DON GUERINO ESPUMANTE MOSCATEL 750 ML", price: 79.00, description: "Espumante Moscatel.", image: "IMAGEM_AQUI" },
+            { id: 826, name: "DON GUERINO RESERVA CABERNET SAUVIGNON 750 ML", price: 125.00, description: "Cabernet Sauvignon Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1294, name: "DONA PAULA ESTATE MALBEC", price: 158.00, description: "Malbec Dona Paula Estate.", image: "IMAGEM_AQUI" },
+            { id: 1282, name: "DUFOULEUR PERE ET FILS CHARDONNAY 750 ML", price: 130.00, description: "Chardonnay Francês.", image: "IMAGEM_AQUI" },
+            { id: 1079, name: "DUFOULEUR PINOT NOIR 750ML", price: 139.80, description: "Pinot Noir Francês.", image: "IMAGEM_AQUI" },
+            { id: 967, name: "DV CATENA CABERNET SAUVIGNON MALBEC 2021", price: 210.00, description: "Blend Cabernet/Malbec Safra 2021.", image: "IMAGEM_AQUI" },
+            { id: 1279, name: "EA RESERVA TN 750ml", price: 172.00, description: "Tinto Reserva EA.", image: "IMAGEM_AQUI" },
+            { id: 835, name: "EA TN 750ml", price: 84.00, description: "Vinho Tinto EA.", image: "IMAGEM_AQUI" },
+            { id: 1071, name: "EL AFAN (G2 GONZALO GUZMAN) 2023", price: 249.00, description: "Vinho Tinto Safra 2023.", image: "IMAGEM_AQUI" },
+            { id: 1021, name: "EL INCIDENT MERLOT 750ml", price: 220.00, description: "Merlot Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1272, name: "ESCUDO ROJO GRAN RES BLEND TT750", price: 208.00, description: "Blend Gran Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1324, name: "ESCUDO ROJO GRAN RES CAB SAUV TT750", price: 190.00, description: "Cabernet Sauvignon Gran Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1269, name: "ESCUDO ROJO GRAN RES CARMENERE TT750", price: 170.00, description: "Carmenère Gran Reserva.", image: "IMAGEM_AQUI" }, // Preço inferido do item seguinte
+            { id: 1271, name: "ESCUDO ROJO GRAN RES CHARD BC750", price: 170.00, description: "Chardonnay Gran Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1270, name: "ESCUDO ROJO GRAN RES PIN NOIR TT750", price: 190.00, description: "Pinot Noir Gran Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1144, name: "ESPUMANTE CAVA FREIXENET CORDON NEGRO BRUT 750 ML", price: 99.90, description: "Cava Brut.", image: "IMAGEM_AQUI" },
+            { id: 1211, name: "ESPUMANTE DEMI-SEC 750ML MONTE PASCHOAL", price: 47.00, description: "Espumante Demi-Sec.", image: "IMAGEM_AQUI" },
+            { id: 1156, name: "ESPUMANTE MARAVI BRUT BC750", price: 64.00, description: "Espumante Brut.", image: "IMAGEM_AQUI" },
+            { id: 1177, name: "ESPUMANTE MARAVI MOSCATEL 750", price: 64.00, description: "Espumante Moscatel.", image: "IMAGEM_AQUI" },
+            { id: 1258, name: "ESPUMANTE MARAVI ROSE BRUT RS750", price: 64.00, description: "Espumante Rosé Brut.", image: "IMAGEM_AQUI" },
+            { id: 1212, name: "ESPUMANTE MOSCATEL BRANCO 750ML MAYOS", price: 54.00, description: "Espumante Moscatel.", image: "IMAGEM_AQUI" },
+            { id: 1210, name: "ESPUMANTE PROSECCO 750ML MONTE PASCHOAL", price: 47.00, description: "Espumante Prosecco.", image: "IMAGEM_AQUI" },
+            { id: 1216, name: "ESPUMANTE ZERO ALCOOl DA CASA", price: 52.00, description: "Espumante sem Álcool.", image: "IMAGEM_AQUI" },
+            { id: 916, name: "ESPUMANTE FERRARI MAXIMUM BRUT", price: 398.90, description: "Espumante Ferrari Maximum Brut.", image: "IMAGEM_AQUI" },
+            { id: 1174, name: "FERRATON LA TOURNEE ROSE RS750", price: 95.00, description: "Vinho Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1175, name: "FERRATON LA TOURNEE TINTO TT750", price: 95.00, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1173, name: "GRAN BODEGA TT750", price: 39.90, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1064, name: "GRAN CHILANO RES SAUVIG BLANC BC750", price: 49.00, description: "Sauvignon Blanc Reserva.", image: "IMAGEM_AQUI" },
+            { id: 979, name: "GUSTAVETE EL MUDO MONASTRELL D.O ALICANTE", price: 213.00, description: "Monastrell D.O Alicante.", image: "IMAGEM_AQUI" },
+            { id: 971, name: "HAZANA RESERVA D.O.C RIOJA", price: 429.00, description: "Rioja Reserva D.O.C.", image: "IMAGEM_AQUI" },
+            { id: 1257, name: "HERDADE DE SAO MIGUEL COLHEITA SELECIONADA TTO TT750", price: 140.00, description: "Tinto Colheita Selecionada.", image: "IMAGEM_AQUI" },
+            { id: 958, name: "JOAQUIM SAUVIGNON BLANC", price: 139.00, description: "Sauvignon Blanc Nacional.", image: "IMAGEM_AQUI" },
+            { id: 1329, name: "KAIKEN ESTATE MALBEC", price: 119.00, description: "Malbec Kaiken Estate.", image: "IMAGEM_AQUI" },
+            { id: 965, name: "LA PETITE PERRIERE PINOT NOIR", price: 175.00, description: "Pinot Noir Francês.", image: "IMAGEM_AQUI" },
+            { id: 1058, name: "LA ROCHE BRUT BC750", price: 74.00, description: "Espumante Brut.", image: "IMAGEM_AQUI" },
+            { id: 1067, name: "LA ROCHE DEMI SEC BC750", price: 59.00, description: "Espumante Demi Sec.", image: "IMAGEM_AQUI" },
+            { id: 1059, name: "LA ROCHE ROSE RS750", price: 74.00, description: "Espumante Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1256, name: "LACERTILIA TANNAT TT750", price: 98.00, description: "Vinho Tinto Tannat.", image: "IMAGEM_AQUI" },
+            { id: 1109, name: "LAMBRUSCO SOGNO ITALIANO ROSSO TT750", price: 59.00, description: "Lambrusco Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1196, name: "LA COLINA RESERVA CARMENERE 750ml", price: 87.00, description: "Carmenere Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1198, name: "LA COLINA RESERVA SYRAH 750ml", price: 87.00, description: "Syrah Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1205, name: "LAMBRUSCO IPURI BIANCO 750ml", price: 65.00, description: "Lambrusco Branco.", image: "IMAGEM_AQUI" },
+            { id: 1077, name: "LEVITY VERDE BRANCO BC750", price: 62.00, description: "Vinho Verde Branco.", image: "IMAGEM_AQUI" },
+            { id: 1303, name: "LEVITY VERDE ROSE RS750", price: 62.00, description: "Vinho Verde Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1076, name: "LISBONITA TINTO TT750", price: 75.00, description: "Vinho Tinto de Lisboa.", image: "IMAGEM_AQUI" },
+            { id: 1330, name: "LOS CARDOS MALBEC 750ML", price: 98.00, description: "Malbec Argentino.", image: "IMAGEM_AQUI" },
+            { id: 1281, name: "LOUISE DE VILLARD PINOT NOIR 2023 750ML", price: 130.00, description: "Pinot Noir Safra 2023.", image: "IMAGEM_AQUI" },
+            { id: 1331, name: "MAYOS GREEN VINHO FRISANTE", price: 52.00, description: "Vinho Frisante.", image: "IMAGEM_AQUI" },
+            { id: 1158, name: "MENAGE A TROIS BOURBON BARREL", price: 199.00, description: "Tinto envelhecido em Barril de Bourbon.", image: "IMAGEM_AQUI" },
+            { id: 1277, name: "MILLAMAN LIMITED RESERVE CABERNET SAUVIGNON TN 750ml PROMO", price: 149.00, description: "Cabernet Sauvignon Reserva (Promoção).", image: "IMAGEM_AQUI" },
+            { id: 1278, name: "MILLAMAN LIMITED RESERVE CARMENERE TN 750ml", price: 149.00, description: "Carmenere Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1323, name: "MONTGRAS DAY ONE GRAN RES CARM TTO", price: 120.00, description: "Carmenere Gran Reserva.", image: "IMAGEM_AQUI" },
+            { id: 957, name: "MORANDE ADVENTURE EL PADRE", price: 339.00, description: "Vinho Tinto Premium.", image: "IMAGEM_AQUI" },
+            { id: 948, name: "MORANDE TERRARUM RESERVA SAUVIGNON BLANC", price: 109.90, description: "Sauvignon Blanc Reserva.", image: "IMAGEM_AQUI" },
+            { id: 956, name: "MORANDE TERRARUM SELECTED BLOCKS CABERNET SAUVIGNON", price: 249.90, description: "Cabernet Sauvignon Selected Blocks.", image: "IMAGEM_AQUI" },
+            { id: 970, name: "MOSEL INCLINE RIESLING (SELBACH-OSTER)", price: 261.00, description: "Riesling Alemão.", image: "IMAGEM_AQUI" },
+            { id: 838, name: "MONTE DO PINTOR TN 750ml", price: 149.90, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 922, name: "MUROS ANTIGOS ALVARINHO (ANSELMO MENDES) 2023", price: 249.90, description: "Alvarinho Safra 2023.", image: "IMAGEM_AQUI" },
+            { id: 1253, name: "OPTA DAO BRANCO BC750", price: 95.00, description: "Vinho Branco Dão.", image: "IMAGEM_AQUI" },
+            { id: 821, name: "ORBEN RIOJA TN", price: 280.90, description: "Vinho Tinto Rioja.", image: "IMAGEM_AQUI" },
+            { id: 866, name: "PAULO LAUREANO ALROCHEIRO TN 750ml", price: 359.90, description: "Alfrocheiro Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1280, name: "PAULO LAUREANO BIGODE TN 750ml", price: 89.00, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1322, name: "PE BRANCO 750 ML", price: 65.00, description: "Vinho Branco Português.", image: "IMAGEM_AQUI" },
+            { id: 1316, name: "PENALOLEN CARMENERE TTO 750ML", price: 195.00, description: "Carmenere Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1290, name: "PENEDO BORGES CEPAS CABERNET SAUVIGNON", price: 129.00, description: "Cabernet Sauvignon.", image: "IMAGEM_AQUI" },
+            { id: 1201, name: "PETIT MAYNNE PINOT NOIR 750ml", price: 170.00, description: "Pinot Noir Francês.", image: "IMAGEM_AQUI" },
+            { id: 890, name: "PONTE MOUCHAO TN 750 ml", price: 262.90, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1024, name: "POGGIO DELCI SANGIOVESE - MAREMMA TOSCANA DOC 750ml", price: 162.00, description: "Sangiovese Maremma Toscana DOC.", image: "IMAGEM_AQUI" },
+            { id: 1287, name: "PRIMITIVO MANDURIA MANDORLA 750 ML", price: 190.00, description: "Primitivo de Manduria.", image: "IMAGEM_AQUI" },
+            { id: 1023, name: "PRIMITIVO MADRETERRA SALENTO 750ml", price: 145.00, description: "Primitivo Salento.", image: "IMAGEM_AQUI" },
+            { id: 848, name: "PRIMITIVO PUGLIA TN 750ml", price: 135.00, description: "Primitivo da Puglia.", image: "IMAGEM_AQUI" },
+            { id: 1292, name: "PUNTO LIMITE MALBEC RESERVA", price: 109.00, description: "Malbec Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1291, name: "PUNTO LIMITE MALBEC ROSE", price: 90.00, description: "Malbec Rosé.", image: "IMAGEM_AQUI" },
+            { id: 978, name: "QUINTA VALE DE FORNOS TOURIGA NACIONAL RESERVA DOC", price: 320.00, description: "Touriga Nacional Reserva DOC.", image: "IMAGEM_AQUI" },
+            { id: 1041, name: "RAVANAL GRAN RESERVA CARMENERE", price: 84.00, description: "Carmenere Gran Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1297, name: "ROVERSI BAROLO TT750", price: 349.00, description: "Vinho Tinto Barolo.", image: "IMAGEM_AQUI" },
+            { id: 1187, name: "SAN TELMO CHARDONNAY BC750", price: 55.00, description: "Chardonnay.", image: "IMAGEM_AQUI" },
+            { id: 1307, name: "SAN TELMO MALBEC TT750", price: 44.00, description: "Malbec.", image: "IMAGEM_AQUI" },
+            { id: 1301, name: "SAN TELMO ROSE RS750", price: 44.00, description: "Vinho Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1284, name: "SANTA ANGELICA CHARDONAY 750ML", price: 62.00, description: "Chardonnay.", image: "IMAGEM_AQUI" },
+            { id: 1285, name: "SANTA ANGELICA SAUVIGNON BLANC 750ML", price: 62.00, description: "Sauvignon Blanc.", image: "IMAGEM_AQUI" },
+            { id: 1289, name: "SANTA JULIA TENSION LA RIBERA MALBEC PETIT VERDOT", price: 115.00, description: "Malbec Petit Verdot.", image: "IMAGEM_AQUI" },
+            { id: 1252, name: "SANVALENTIN TEMPRANILLO TT750", price: 98.00, description: "Tempranillo Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1194, name: "SALVATTORE CABERNET FRANC 750ml", price: 106.00, description: "Cabernet Franc.", image: "IMAGEM_AQUI" },
+            { id: 902, name: "SEM VERGONHA TN 750ml", price: 284.90, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1273, name: "SIGNOS MALBEC TT750", price: 62.00, description: "Malbec.", image: "IMAGEM_AQUI" },
+            { id: 1018, name: "SIN RODEO CABERNET SAUVIGNON 750ml", price: 94.00, description: "Cabernet Sauvignon.", image: "IMAGEM_AQUI" },
+            { id: 1016, name: "STAPHYLE PREMIUM BONARDA 750ml", price: 199.00, description: "Bonarda Premium.", image: "IMAGEM_AQUI" },
+            { id: 1326, name: "SUCO DE UVA NATURAL CASA BENTO 295ML", price: 16.00, description: "Suco de Uva Natural.", image: "IMAGEM_AQUI" },
+            { id: 1276, name: "SUSANA BALBO SIGNATURE CAB SAUV TT750", price: 286.00, description: "Cabernet Sauvignon Signature.", image: "IMAGEM_AQUI" },
+            { id: 929, name: "SYRAH LIMITED RELEASE (SUTIL) 2021", price: 169.90, description: "Syrah Limited Release Safra 2021.", image: "IMAGEM_AQUI" },
+            { id: 1312, name: "TALO PRIMITIVO DI MANDURI", price: 289.00, description: "Primitivo di Manduria.", image: "IMAGEM_AQUI" },
+            { id: 858, name: "TERRA A TERRA RESERVA DOURO TN 750ml", price: 194.90, description: "Reserva Douro Tinto.", image: "IMAGEM_AQUI" },
+            { id: 850, name: "TERRAS DE XISTO TN 750ml", price: 59.00, description: "Vinho Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1137, name: "TOMMASI AMARONE 750ML", price: 699.00, description: "Amarone.", image: "IMAGEM_AQUI" },
+            { id: 870, name: "TRES BAGOS RESERVA DOURO TN 750ml", price: 135.90, description: "Reserva Douro Tinto.", image: "IMAGEM_AQUI" },
+            { id: 1275, name: "VENTISQUERO CLASICO CHARDONNAY BC750", price: 60.00, description: "Chardonnay Clássico.", image: "IMAGEM_AQUI" },
+            { id: 1308, name: "VENTISQUERO CLASICO MERLOT TT 187ml", price: 23.00, description: "Merlot Clássico (Mini Garrafa).", image: "IMAGEM_AQUI" },
+            { id: 1274, name: "VENTISQUERO CLASICO SAUV BLANC BC750", price: 60.00, description: "Sauvignon Blanc Clássico.", image: "IMAGEM_AQUI" },
+            { id: 1182, name: "VENTISQUERO EXPLORADOR C SAUV TT750", price: 43.00, description: "Cabernet Sauvignon Explorador.", image: "IMAGEM_AQUI" },
+            { id: 1261, name: "VENTISQUERO QUEULAT PINOT NOIR TT750", price: 129.00, description: "Pinot Noir Queulat.", image: "IMAGEM_AQUI" },
+            { id: 1066, name: "VENTISQUERO RESERVA CAB SAUVIG TT750", price: 82.00, description: "Cabernet Sauvignon Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1183, name: "VENTISQUERO RESERVA NETAO RB TT750", price: 80.00, description: "Vinho Tinto Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1263, name: "VENTISQUERO RESERVA PINOT NOIR TT750", price: 110.00, description: "Pinot Noir Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1061, name: "VENTISQUERO RESERVA SAUV BLANC BC750", price: 89.00, description: "Sauvignon Blanc Reserva.", image: "IMAGEM_AQUI" },
+            { id: 1157, name: "ESPUMANTE VEUVE DEVIENNE BRUT BC750", price: 95.00, description: "Espumante Brut.", image: "IMAGEM_AQUI" },
+            { id: 1225, name: "ESPUMANTE VEUVE DEVIENNE BRUT ROSE RS750", price: 95.00, description: "Espumante Brut Rosé.", image: "IMAGEM_AQUI" },
+            { id: 1232, name: "VILA NOVA VINHO VERDE BLEND BC750", price: 82.00, description: "Vinho Verde Branco.", image: "IMAGEM_AQUI" },
+            { id: 1321, name: "VINHO PORTUGUES PE TINTO 750 ML", price: 65.00, description: "Vinho Tinto Português.", image: "IMAGEM_AQUI" },
+            { id: 1219, name: "VINOH OAK CHARDONNAY - FERMENTADO DE UVA DESALCOOLIZADO BRANCO SECO 750ml", price: 120.00, description: "Chardonnay Desalcoolizado.", image: "IMAGEM_AQUI" },
+            { id: 1221, name: "VINOH SELECT CABERNET SAUVIGNON - FERMENTADO DE UVA DESALCOOLIZADO TINTO SECO", price: 90.00, description: "Cabernet Sauvignon Desalcoolizado.", image: "IMAGEM_AQUI" },
+            { id: 1220, name: "VINOH SELECT MERLOT - FERMENTADO DE UVA DESALCOOLIZADO TINTO SECO 750 ml", price: 90.00, description: "Merlot Desalcoolizado.", image: "IMAGEM_AQUI" },
+            { id: 1222, name: "VINOH SELECT SUAVE - MERLOT & CABERNET SAUVIGNON - FERMENTADO DE UVA DESALCOOLIZADO TINTO ADOCADO 750 ml", price: 90.00, description: "Suave Desalcoolizado.", image: "IMAGEM_AQUI" },
+            { id: 1014, name: "VM CHARDONNAY 750ml", price: 110.00, description: "Chardonnay.", image: "IMAGEM_AQUI" },
+            { id: 930, name: "VONTADE (G2 GONZALO GUZMAN) 2021", price: 231.90, description: "Vinho Tinto Safra 2021.", image: "IMAGEM_AQUI" },
+            { id: 1111, name: "WAVE BRANCO BC750", price: 68.00, description: "Vinho Branco.", image: "IMAGEM_AQUI" },
+            { id: 1300, name: "YELLOW TAIL MOSCATO BC750", price: 85.00, description: "Moscato.", image: "IMAGEM_AQUI" },
+            { id: 1108, name: "YELLOW TAIL SYRAH TT750", price: 89.00, description: "Syrah.", image: "IMAGEM_AQUI" }
+        ];
+
+        // --- LÓGICA (Mantida) ---
+        function renderCatalog(items) {
+            const container = document.getElementById('catalog');
+            container.innerHTML = "";
+
+            if (items.length === 0) {
+                container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 20px;'>Nenhum produto encontrado.</p>";
+                return;
+            }
+
+            items.forEach(product => {
+                const priceFormatted = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price);
+                const msg = `Olá! Gostaria de saber sobre o *${product.name}* de ${priceFormatted}. (ID: ${product.id})`;
+                const link = `https://wa.me/${MEU_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+                // Adiciona uma imagem placeholder genérica que aparece se você não inserir o link
+                const imageSrc = product.image === "IMAGEM_AQUI" ? "https://placehold.co/400x300/e0e0e0/333333?text=Vinho" : product.image;
+
+                container.innerHTML += `
+                    <div class="card">
+                        <img src="${imageSrc}" alt="${product.name}" loading="lazy">
+                        <div class="card-content">
+                            <div>
+                                <h3>${product.name}</h3>
+                                <p>${product.description}</p>
+                            </div>
+                            <div>
+                                <div class="price">${priceFormatted}</div>
+                                <a href="${link}" target="_blank" class="btn-buy">Pedir no WhatsApp</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        document.getElementById('search-bar').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderCatalog(products.filter(p => p.name.toLowerCase().includes(term) || p.description.toLowerCase().includes(term) || p.id.toString().includes(term)));
+        });
+
+        renderCatalog(products);
+    </script>
+</body>
+</html>
